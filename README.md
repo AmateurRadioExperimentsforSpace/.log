@@ -1,4 +1,4 @@
-# Amateur Radio Logbook
+# AREFS - LOGBOOK
 
 An application for logging amateur radio communications and exporting the data in various formats.
 
