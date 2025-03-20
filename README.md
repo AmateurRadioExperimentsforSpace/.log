@@ -22,7 +22,7 @@ An application for logging amateur radio communications and exporting the data i
 1. Clone this repository to your local machine:
 
     ```bash
-    git clone https://github.com/<your-username>/amateur-radio-logbook.git
+    git clone [https://github.com/<your-username>/amateur-radio-logbook.git](https://github.com/AmateurRadioExperimentsforSpace)
     ```
 
 2. Open the project in your browser. The app runs directly in the browser, no server required.
