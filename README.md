@@ -2,6 +2,13 @@
 
 An application for logging amateur radio communications and exporting the data in various formats.
 
+![image](https://github.com/user-attachments/assets/6e924ffd-9410-411d-9997-a492015618ec)
+
+![image](https://github.com/user-attachments/assets/559a1268-3c4d-4972-8bb9-c49d9392ec7e)
+
+
+
+
 ## Features
 
 - **Log Recording:** Record your radio communication details and view them in a table format.
