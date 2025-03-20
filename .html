@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AREFS LOGBOOK</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-color: #f5f5f5;
+      --text-color: #333;
+      --container-bg: white;
+      --border-color: #ddd;
+      --primary-color: #005a8b; /* Askeri kırmızı */
+      --secondary-color: #4A5D75; /* Koyu mavi */
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #333;
+      --text-color: #f5f5f5;
+      --container-bg: #444;
+      --border-color: #666;
+      --primary-color: #ffffff; /* Koyu askeri kırmızı */
+      --secondary-color: #374759; /* Koyu lacivert */
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: var(--container-bg);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .turkish-flag {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 40px;
+      background-image: url('https://avatars.githubusercontent.com/u/204147006?s=200&v=4');
+      background-size: cover;
+      background-position: center;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .theme-toggle, .mode-toggle {
+      background: var(--primary-color);
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover, .mode-toggle:hover {
+      background: var(--secondary-color);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    .form-col {
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    input[type="text"],
+    input[type="datetime-local"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: var(--container-bg);
+      color: var(--text-color);
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+
+    .btn {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--secondary-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: var(--bg-color);
+    }
+
+    .mode-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      background-color: var(--primary-color);
+      color: white;
+      display: inline-block;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .radar-container {
+      width: 300px;
+      height: 300px;
+      margin: 20px auto;
+      background-image: url('https://giphy.com/embed/jQS9YkJXofyeI');
+      background-size: cover;
+      border-radius: 50%;
+      border: 3px solid var(--primary-color);
+    }
+
+    .digital-clock {
+      text-align: center;
+      font-size: 2em;
+      font-family: 'Digital', monospace;
+      color: var(--primary-color);
+      margin: 20px 0;
+    }
+
+    .export-buttons {
+      margin: 20px 0;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .export-btn {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .export-btn:hover {
+      background-color: var(--secondary-color);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1><i class="fas fa-broadcast-tower"></i> AREFS </h1>
+    <div class="turkish-flag"></div>
+    <div class="controls">
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i> Tema
+      </button>
+      <button class="mode-toggle" onclick="toggleMode()">
+        <i class="fas fa-mountain"></i> <span id="currentMode">POTA</span>
+      </button>
+    </div>
+  </div>
+
+  <form id="logForm">
+    <div class="form-row">
+      <div class="form-col">
+        <label for="date">Tarih ve Saat:</label>
+        <input type="datetime-local" id="date" required>
+      </div>
+      <div class="form-col">
+        <label for="tx_callsign">TX Çağrı İşareti:</label>
+        <input type="text" id="tx_callsign" required>
+      </div>
+      <div class="form-col">
+        <label for="rx_callsign">RX Çağrı İşareti:</label>
+        <input type="text" id="rx_callsign" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-col">
+        <label for="frequency">Frekans (MHz):</label>
+        <input type="number" id="frequency" step="0.001" required>
+      </div>
+      <div class="form-col">
+        <label for="mode">Mod:</label>
+        <select id="mode" required>
+          <option value="SSB">SSB</option>
+          <option value="FM">FM</option>
+          <option value="CW">CW</option>
+          <option value="AM">AM</option>
+          <option value="DIGITAL">DIGITAL</option>
+        </select>
+      </div>
+      <div class="form-col">
+        <label for="rst">RST Raporu:</label>
+        <input type="text" id="rst" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-col">
+        <label for="location">Konum:</label>
+        <input type="text" id="location">
+      </div>
+      <div class="form-col">
+        <label for="reference">POTA/SOTA Referansı:</label>
+        <input type="text" id="reference">
+      </div>
+      <div class="form-col">
+        <label for="notes">Notlar:</label>
+        <input type="text" id="notes">
+      </div>
+    </div>
+
+    <button type="submit" class="btn"><i class="fas fa-save"></i> Kaydet</button>
+  </form>
+
+  <div class="export-buttons">
+    <button class="export-btn" onclick="exportData('csv')">
+      <i class="fas fa-download"></i> CSV Dışa Aktar
+    </button>
+    <button class="export-btn" onclick="exportData('xml')">
+      <i class="fas fa-download"></i> XML Dışa Aktar
+    </button>
+    <button class="export-btn" onclick="exportData('xls')">
+      <i class="fas fa-download"></i> XLS Dışa Aktar
+    </button>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Tarih</th>
+      <th>TX Çağrı</th>
+      <th>RX Çağrı</th>
+      <th>Frekans</th>
+      <th>Mod</th>
+      <th>RST</th>
+      <th>Konum</th>
+      <th>Referans</th>
+      <th>Notlar</th>
+    </tr>
+    </thead>
+    <tbody id="logEntries"></tbody>
+  </table>
+
+  <div class="digital-clock" id="digitalClock"></div>
+</div>
+
+<script>
+  const logEntries = [];
+  let mode = "POTA";
+
+  // Tema değiştir
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    document.documentElement.setAttribute("data-theme", currentTheme === "light" ? "dark" : "light");
+  }
+
+  // Mod değiştir (POTA/SOTA)
+  function toggleMode() {
+    mode = mode === "POTA" ? "SOTA" : "POTA";
+    document.getElementById("currentMode").textContent = mode;
+  }
+
+  // Log kaydı ekle
+  document.getElementById("logForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const date = document.getElementById("date").value;
+    const tx_callsign = document.getElementById("tx_callsign").value;
+    const rx_callsign = document.getElementById("rx_callsign").value;
+    const frequency = document.getElementById("frequency").value;
+    const mode = document.getElementById("mode").value;
+    const rst = document.getElementById("rst").value;
+    const location = document.getElementById("location").value;
+    const reference = document.getElementById("reference").value;
+    const notes = document.getElementById("notes").value;
+
+    const entry = {
+      date,
+      tx_callsign,
+      rx_callsign,
+      frequency,
+      mode,
+      rst,
+      location,
+      reference,
+      notes
+    };
+
+    logEntries.push(entry);
+    displayLogEntries();
+    document.getElementById("logForm").reset();
+  });
+
+  // Logları görüntüle
+  function displayLogEntries() {
+    const logTable = document.getElementById("logEntries");
+    logTable.innerHTML = "";
+
+    logEntries.forEach(entry => {
+      const row = `<tr>
+        <td>${entry.date}</td>
+        <td>${entry.tx_callsign}</td>
+        <td>${entry.rx_callsign}</td>
+        <td>${entry.frequency}</td>
+        <td>${entry.mode}</td>
+        <td>${entry.rst}</td>
+        <td>${entry.location}</td>
+        <td>${entry.reference}</td>
+        <td>${entry.notes}</td>
+      </tr>`;
+      logTable.innerHTML += row;
+    });
+  }
+
+  // Dışa aktarma işlemleri
+  function exportData(format) {
+    let data;
+    let fileName = "logbook";
+
+    if (format === "csv") {
+      data = logEntries.map(entry => [
+        entry.date,
+        entry.tx_callsign,
+        entry.rx_callsign,
+        entry.frequency,
+        entry.mode,
+        entry.rst,
+        entry.location,
+        entry.reference,
+        entry.notes
+      ]);
+      fileName += ".csv";
+      downloadCSV(data, fileName);
+    } else if (format === "xml") {
+      data = `<logs>${logEntries.map(entry => `
+        <log>
+          <date>${entry.date}</date>
+          <tx_callsign>${entry.tx_callsign}</tx_callsign>
+          <rx_callsign>${entry.rx_callsign}</rx_callsign>
+          <frequency>${entry.frequency}</frequency>
+          <mode>${entry.mode}</mode>
+          <rst>${entry.rst}</rst>
+          <location>${entry.location}</location>
+          <reference>${entry.reference}</reference>
+          <notes>${entry.notes}</notes>
+        </log>`).join('')}
+      </logs>`;
+      fileName += ".xml";
+      downloadXML(data, fileName);
+    } else if (format === "xls") {
+      const header = ["Tarih", "TX Çağrı", "RX Çağrı", "Frekans", "Mod", "RST", "Konum", "Referans", "Notlar"];
+      data = [header].concat(logEntries.map(entry => [
+        entry.date, entry.tx_callsign, entry.rx_callsign, entry.frequency, entry.mode, entry.rst, entry.location, entry.reference, entry.notes
+      ]));
+      fileName += ".xls";
+      downloadXLS(data, fileName);
+    }
+  }
+
+  // CSV dışa aktarma
+  function downloadCSV(data, fileName) {
+    const csv = data.map(row => row.join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+  }
+
+  // XML dışa aktarma
+  function downloadXML(data, fileName) {
+    const blob = new Blob([data], { type: "application/xml" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+  }
+
+  // XLS dışa aktarma (xlsx.js kullanarak)
+  function downloadXLS(data, fileName) {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, "Logbook");
+    XLSX.writeFile(wb, fileName);
+  }
+
+  // Dijital saat
+  function updateClock() {
+    const now = new Date();
+    document.getElementById("digitalClock").textContent = now.toLocaleTimeString();
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+</body>
+</html>
